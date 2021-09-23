@@ -1,5 +1,36 @@
-// Factory function and methods for object traversal.
-// Uses a stack rather than recursion.
+//------------------------------------------------------------------------------
+// Objects
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+// Object type predicate
+
+const isObject = (obj) =>
+  Object.prototype.toString.call(obj) === '[object Object]';
+
+//------------------------------------------------------------------------------
+// Merge a dotted key into an object
+
+const mergeDottedKey = (dottedKey, value, obj) => {
+  const keys = dottedKey.split('.').reverse();
+  let sub = obj;
+  let key = keys.pop();
+
+  // Advance until key not found or value not an object
+  while (key in sub && isObject(sub[key])) {
+    sub = sub[key];
+    key = keys.pop();
+  }
+
+  // Then build branch backwards and attach
+  sub[key] = keys.reduce((branch, key) => {
+    return { [key]: branch };
+  }, value);
+  return obj;
+};
+
+//------------------------------------------------------------------------------
+// Non recursive object traversal
 
 const _traverseProto = {
   _nextEntry() {
