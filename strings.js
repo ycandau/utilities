@@ -12,35 +12,36 @@ const match = (str, pos1, pos2) => {
 
 const getZValues = (str) => {
   let pos = 1;
-  let begin = -1;
-  let end = -1;
-  let z = [-1];
+  let begin = 0;
+  let end = 0;
+  let z = [-1]; // The first value is irrelevant.
 
   while (pos < str.length) {
-    // Position beyond rightmost matching range
-    // Simple match
+    // The position is beyond the rightmost matching range.
+    // Calculate the Z value in the obvious way.
     if (pos > end) {
       const length = match(str, 0, pos);
       z[pos] = length;
-      if (length) {
-        begin = pos;
-        end = pos + length - 1;
-      }
-    } else if (pos <= end) {
-      // Position within range and Z value contained within range
-      // Z value is known and equal to value from prefix
-      if (z[pos - begin] < end - pos + 1) {
-        z[pos] = z[pos - begin];
-      }
 
-      // Position within range and Z value reaches beyond range
-      // Z value is at least equal to value from prefix
-      // and extend search beyond range
-      else {
-        begin = pos;
-        end += match(str, end - pos + 1, end + 1);
-        z[pos] = end - pos + 1;
-      }
+      // Set the range.
+      // No need to add condition as pos will be beyond on next iteration.
+      begin = pos;
+      end = pos + length - 1;
+    }
+
+    // The position is within range and the Z value contained within the range.
+    // The Z value is known and equal to the value from the prefix.
+    else if (z[pos - begin] < end - pos + 1) {
+      z[pos] = z[pos - begin];
+    }
+
+    // The position is within range and the Z value reaches beyond the range.
+    // The Z value is at least equal to the value from the prefix.
+    // Extend the search beyond the matching range.
+    else {
+      begin = pos;
+      end += match(str, end - pos + 1, end + 1);
+      z[pos] = end - pos + 1;
     }
     pos++;
   }
