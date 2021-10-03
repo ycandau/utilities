@@ -1,9 +1,11 @@
 //------------------------------------------------------------------------------
-// Helper:
+// Helper: Match substrings within a string
 
 const match = (str, pos1, pos2) => {
   let len = 0;
-  while (str[pos1 + len] === str[pos2 + len] && pos2 + len < str.length) len++;
+  while (str[pos1 + len] === str[pos2 + len] && pos2 + len < str.length) {
+    len++;
+  }
   return len;
 };
 
@@ -50,7 +52,22 @@ const getZValues = (str) => {
 };
 
 //------------------------------------------------------------------------------
+// Substring search in linear time using Z values
+
+const find = (str, sub) => {
+  const concat = sub + str;
+  const length = sub.length;
+  const finds = [];
+  const zValues = getZValues(concat);
+  for (let i = length; i < zValues.length; i++) {
+    if (zValues[i] >= length) {
+      finds.push(i);
+    }
+  }
+  return finds;
+};
 
 module.exports = {
   getZValues,
+  find,
 };
