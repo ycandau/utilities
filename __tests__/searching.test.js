@@ -18,8 +18,18 @@ const testBinarySearchLeftmost = (array, value, expIndex) => {
 
 describe('Searching utilities and algorithms', () => {
   describe('Binary search: Leftmost match', () => {
+    testBinarySearchLeftmost([], 1, 0);
+    testBinarySearchLeftmost([1], 0, 0);
+    testBinarySearchLeftmost([1], 1, 0);
+    testBinarySearchLeftmost([1], 2, 0);
+    testBinarySearchLeftmost([1, 2, 3], 0, 0);
+    testBinarySearchLeftmost([1, 2, 3], 0.5, 0);
     testBinarySearchLeftmost([1, 2, 3], 1, 0);
+    testBinarySearchLeftmost([1, 2, 3], 1.5, 1);
     testBinarySearchLeftmost([1, 2, 3], 2, 1);
     testBinarySearchLeftmost([1, 2, 3], 3, 2);
+    testBinarySearchLeftmost([1, 2, 3], 3.5, 2);
+    testBinarySearchLeftmost([1, 2, 3], 4, 2);
+    testBinarySearchLeftmost([1, 2, 2, 2, 3], 2, 1);
   });
 });
