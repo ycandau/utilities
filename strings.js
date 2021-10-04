@@ -1,4 +1,8 @@
 //------------------------------------------------------------------------------
+// String utilities and algorithms
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
 // Helper: Match substrings within a string
 
 const match = (str, pos1, pos2) => {
@@ -16,7 +20,7 @@ const getZValues = (str) => {
   let pos = 1;
   let begin = 0;
   let end = 0;
-  let z = [-1]; // The first value is irrelevant.
+  let z = [str.length]; // The first value is irrelevant.
 
   while (pos < str.length) {
     // The position is beyond the rightmost matching range.
@@ -55,17 +59,22 @@ const getZValues = (str) => {
 // Substring search in linear time using Z values
 
 const find = (str, sub) => {
-  const concat = sub + str;
-  const length = sub.length;
   const finds = [];
-  const zValues = getZValues(concat);
-  for (let i = length; i < zValues.length; i++) {
-    if (zValues[i] >= length) {
-      finds.push(i);
-    }
-  }
+  const length = sub.length;
+
+  // Use the Z values of the concatenated strings to find the matches
+  getZValues(sub + str)
+    .slice(length)
+    .forEach((zValue, index) => {
+      if (zValue >= length) {
+        finds.push(index);
+      }
+    });
+
   return finds;
 };
+
+//------------------------------------------------------------------------------
 
 module.exports = {
   getZValues,

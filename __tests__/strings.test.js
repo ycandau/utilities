@@ -1,5 +1,7 @@
-const { expect } = require('@jest/globals');
-const { describe } = require('jest-circus');
+//------------------------------------------------------------------------------
+// Test the string utilities and algorithms
+//------------------------------------------------------------------------------
+
 const strings = require('../strings.js');
 
 //------------------------------------------------------------------------------
@@ -7,7 +9,7 @@ const strings = require('../strings.js');
 const testZValues = (str, expZValues) => {
   it(`calculates the Z values for ${str}`, () => {
     const [first, ...zValues] = strings.getZValues(str);
-    expect(first).toBe(-1);
+    expect(first).toBe(str.length);
     expect(zValues.length).toBe(expZValues.length);
     expect(zValues).toEqual(expZValues);
   });
@@ -36,6 +38,11 @@ describe('String utilities and algorithms', () => {
   });
 
   describe('Linear substring search using Z values', () => {
+    testFind('aaaaa', '', [0, 1, 2, 3, 4]);
     testFind('aaaaa', 'a', [0, 1, 2, 3, 4]);
+    testFind('aaaaa', 'x', []);
+    testFind('abcabcabc', 'a', [0, 3, 6]);
+    testFind('abcabcabc', 'abc', [0, 3, 6]);
+    testFind('abcabcabc', 'abca', [0, 3]);
   });
 });
