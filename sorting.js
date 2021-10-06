@@ -5,26 +5,43 @@
 //------------------------------------------------------------------------------
 // Selection sort: O(n^2)
 
-const sortSelection = (array) => {
-  const copy = [...array];
+const selection = (sourceArray, compare) => {
+  const array = [...sourceArray];
 
-  for (let i = 0; i < copy.length; i++) {
+  for (let i = 0; i < array.length; i++) {
     let indexMin = i;
-    for (let j = i + 1; j < copy.length; j++) {
-      if (copy[j] < copy[indexMin]) {
+    for (let j = i + 1; j < array.length; j++) {
+      if (compare(array[indexMin], array[j]) > 0) {
         indexMin = j;
       }
     }
-    const tmp = copy[i];
-    copy[i] = copy[indexMin];
-    copy[indexMin] = tmp;
+    const tmp = array[i];
+    array[i] = array[indexMin];
+    array[indexMin] = tmp;
   }
-  console.log(copy);
-  return copy;
+  return array;
+};
+
+//------------------------------------------------------------------------------
+
+const bubble = (sourceArray, compare) => {
+  const array = [...sourceArray];
+
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array.length - 1 - i; j++) {
+      if (compare(array[j], array[j + 1]) > 0) {
+        const tmp = array[j + 1];
+        array[j + 1] = array[j];
+        array[j] = tmp;
+      }
+    }
+  }
+  return array;
 };
 
 //------------------------------------------------------------------------------
 
 module.exports = {
-  sortSelection,
+  selection,
+  bubble,
 };

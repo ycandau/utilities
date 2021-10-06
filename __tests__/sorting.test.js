@@ -3,24 +3,34 @@
 //------------------------------------------------------------------------------
 
 const { expect } = require('@jest/globals');
-const sorting = require('../sorting.js');
+const sort = require('../sorting.js');
 
 //------------------------------------------------------------------------------
 
-const testSortSelection = (array, expArray) => {
+const compare = (a, b) => a - b;
+
+const testSortOnce = (array, sort) => {
   it(`sorts the array ${array}`, () => {
-    const sorted = sorting.sortSelection(array);
-    expect(sorted).toEqual(expArray);
+    const sorted = sort(array, compare);
+    const expected = [...array].sort(compare);
+    expect(sorted).toEqual(expected);
+  });
+};
+
+const testSort = (type, sort) => {
+  describe(`${type} sort`, () => {
+    testSortOnce([], sort);
+    testSortOnce([1], sort);
+    testSortOnce([1, 2, 3, 4], sort);
+    testSortOnce([4, 1, 3, 2], sort);
   });
 };
 
 //------------------------------------------------------------------------------
 
 describe('Sorting utilities and algorithms', () => {
-  describe('Selection sort', () => {
-    testSortSelection([], []);
-    testSortSelection([1], [1]);
-    testSortSelection([1, 2, 3, 4], [1, 2, 3, 4]);
-    testSortSelection([4, 1, 3, 2], [1, 2, 3, 4]);
-  });
+  testSort('Selection', sort.selection);
+  testSort('Bubble', sort.bubble);
+
+  //----------------------------------------------------------------------------
 });
