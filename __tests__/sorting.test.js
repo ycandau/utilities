@@ -31,6 +31,7 @@ const testSort = (type, sort) => {
 describe('Sorting utilities and algorithms', () => {
   testSort('Selection', sort.selection);
   testSort('Bubble', sort.bubble);
+  testSort('Quick', sort.quick);
 
   //----------------------------------------------------------------------------
 });

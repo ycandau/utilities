@@ -23,6 +23,7 @@ const selection = (sourceArray, compare) => {
 };
 
 //------------------------------------------------------------------------------
+// Bubble sort: O(n^2)
 
 const bubble = (sourceArray, compare) => {
   const array = [...sourceArray];
@@ -40,8 +41,52 @@ const bubble = (sourceArray, compare) => {
 };
 
 //------------------------------------------------------------------------------
+// Quick sort: O(n * log(n))
+
+const partition = (array, begin, end, compare) => {
+  let low = begin;
+  let high = begin;
+  const pivot = array[end];
+
+  // Partition by growing the low and high sequences
+  while (high < end) {
+    if (pivot < array[high]) {
+      high++;
+    } else {
+      const tmp = array[low];
+      array[low] = array[high];
+      array[high] = tmp;
+      low++;
+      high++;
+    }
+  }
+
+  // Place the pivot
+  array[end] = array[low];
+  array[low] = pivot;
+
+  // Pivot index
+  return low;
+};
+
+const quickRecurse = (array, begin, end, compare) => {
+  if (begin < end) {
+    const part = partition(array, begin, end, compare);
+    quickRecurse(array, begin, part - 1, compare);
+    quickRecurse(array, part + 1, end, compare);
+  }
+};
+
+const quick = (sourceArray, compare) => {
+  const array = [...sourceArray];
+  quickRecurse(array, 0, array.length - 1, compare);
+  return array;
+};
+
+//------------------------------------------------------------------------------
 
 module.exports = {
   selection,
   bubble,
+  quick,
 };
