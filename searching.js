@@ -39,8 +39,30 @@ const binarySearchRightmost = (array, value) => {
 };
 
 //------------------------------------------------------------------------------
+// Binary search: Alternative with three cases
+// NB: No guarantee of which value is found if not unique
+
+const binarySearchAlt = (array, value) => {
+  let low = 0;
+  let high = array.length - 1;
+
+  while (low <= high) {
+    const mid = (low + high) >> 1;
+    if (value > array[mid]) {
+      low = mid + 1;
+    } else if (value < array[mid]) {
+      high = mid - 1;
+    } else {
+      return mid;
+    }
+  }
+  return undefined;
+};
+
+//------------------------------------------------------------------------------
 
 module.exports = {
   binarySearchLeftmost,
   binarySearchRightmost,
+  binarySearchAlt,
 };
