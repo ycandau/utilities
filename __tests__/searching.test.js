@@ -7,19 +7,15 @@ const searching = require('../searching.js');
 
 //------------------------------------------------------------------------------
 
-const testBinarySearchLeftmost = (array, value, expIndex) => {
+const testBinarySearch = (array, value, expIndex, search) => {
   it(`finds the index for the value ${value} in ${array}`, () => {
-    const index = searching.binarySearchLeftmost(array, value);
-    expect(index).toBe(expIndex);
-  });
-};
-
-//------------------------------------------------------------------------------
-
-const testBinarySearchRightmost = (array, value, expIndex) => {
-  it(`finds the index for the value ${value} in ${array}`, () => {
-    const index = searching.binarySearchRightmost(array, value);
-    expect(index).toBe(expIndex);
+    const index = search(array, value);
+    if (index !== undefined) {
+      expect(array[index]).toBe(value);
+    }
+    if (expIndex !== null) {
+      expect(index).toBe(expIndex);
+    }
   });
 };
 
@@ -27,32 +23,53 @@ const testBinarySearchRightmost = (array, value, expIndex) => {
 
 describe('Searching utilities and algorithms', () => {
   describe('Binary search: Leftmost match', () => {
-    testBinarySearchLeftmost([], 1, undefined);
-    testBinarySearchLeftmost([1], 0, undefined);
-    testBinarySearchLeftmost([1], 1, 0);
-    testBinarySearchLeftmost([1], 2, undefined);
-    testBinarySearchLeftmost([1, 2, 3], 0, undefined);
-    testBinarySearchLeftmost([1, 2, 3], 1, 0);
-    testBinarySearchLeftmost([1, 2, 3], 2, 1);
-    testBinarySearchLeftmost([1, 2, 3], 3, 2);
-    testBinarySearchLeftmost([1, 2, 3], 4, undefined);
-    testBinarySearchLeftmost([1, 2, 2, 2, 3], 2, 1);
-    testBinarySearchLeftmost([2, 2, 2, 2, 3], 2, 0);
+    const search = searching.binarySearchLeftmost;
+    testBinarySearch([], 1, undefined, search);
+    testBinarySearch([1], 0, undefined, search);
+    testBinarySearch([1], 1, 0, search);
+    testBinarySearch([1], 2, undefined, search);
+    testBinarySearch([1, 2, 3], 0, undefined, search);
+    testBinarySearch([1, 2, 3], 1, 0, search);
+    testBinarySearch([1, 2, 3], 2, 1, search);
+    testBinarySearch([1, 2, 3], 3, 2, search);
+    testBinarySearch([1, 2, 3], 4, undefined, search);
+    testBinarySearch([1, 2, 2, 2, 3], 2, 1, search);
+    testBinarySearch([2, 2, 2, 2, 3], 2, 0, search);
   });
 
   //----------------------------------------------------------------------------
 
   describe('Binary search: Rightmost match', () => {
-    testBinarySearchRightmost([], 1, undefined);
-    testBinarySearchRightmost([1], 0, undefined);
-    testBinarySearchRightmost([1], 1, 0);
-    testBinarySearchRightmost([1], 2, undefined);
-    testBinarySearchRightmost([1, 2, 3], 0, undefined);
-    testBinarySearchRightmost([1, 2, 3], 1, 0);
-    testBinarySearchRightmost([1, 2, 3], 2, 1);
-    testBinarySearchRightmost([1, 2, 3], 3, 2);
-    testBinarySearchRightmost([1, 2, 3], 4, undefined);
-    testBinarySearchRightmost([1, 2, 2, 2, 3], 2, 3);
-    testBinarySearchRightmost([1, 2, 2, 2, 2], 2, 4);
+    const search = searching.binarySearchRightmost;
+    testBinarySearch([], 1, undefined, search);
+    testBinarySearch([1], 0, undefined, search);
+    testBinarySearch([1], 1, 0, search);
+    testBinarySearch([1], 2, undefined, search);
+    testBinarySearch([1, 2, 3], 0, undefined, search);
+    testBinarySearch([1, 2, 3], 1, 0, search);
+    testBinarySearch([1, 2, 3], 2, 1, search);
+    testBinarySearch([1, 2, 3], 3, 2, search);
+    testBinarySearch([1, 2, 3], 4, undefined, search);
+    testBinarySearch([1, 2, 2, 2, 3], 2, 3, search);
+    testBinarySearch([1, 2, 2, 2, 2], 2, 4, search);
+  });
+
+  //----------------------------------------------------------------------------
+
+  // no guarantee of which value is found if not unique
+
+  describe('Binary search: Alternative with three cases', () => {
+    const search = searching.binarySearchAlt;
+    testBinarySearch([], 1, undefined, search);
+    testBinarySearch([1], 0, undefined, search);
+    testBinarySearch([1], 1, 0, search);
+    testBinarySearch([1], 2, undefined, search);
+    testBinarySearch([1, 2, 3], 0, undefined, search);
+    testBinarySearch([1, 2, 3], 1, 0, search);
+    testBinarySearch([1, 2, 3], 2, 1, search);
+    testBinarySearch([1, 2, 3], 3, 2, search);
+    testBinarySearch([1, 2, 3], 4, undefined, search);
+    testBinarySearch([1, 2, 2, 2, 3], 2, null, search);
+    testBinarySearch([1, 2, 2, 2, 2], 2, null, search);
   });
 });
