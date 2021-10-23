@@ -56,8 +56,6 @@ describe('Searching utilities and algorithms', () => {
 
   //----------------------------------------------------------------------------
 
-  // no guarantee of which value is found if not unique
-
   describe('Binary search: Alternative with three cases', () => {
     const search = searching.binarySearchAlt;
     testBinarySearch([], 1, undefined, search);
